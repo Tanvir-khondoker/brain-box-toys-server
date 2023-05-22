@@ -36,7 +36,7 @@ async function run() {
     // await client.connect();
 
     const toysCollection = client.db("brainToys").collection("categories");
-    const addedToysCollection = client.db("brainToys").collection("addedToys");
+    // const addedToysCollection = client.db("brainToys").collection("addedToys");
 
     app.get("/categories", async (req, res) => {
       const cursor = toysCollection.find();
@@ -62,7 +62,8 @@ async function run() {
     app.post("/addedToys", async (req, res) => {
       const adding = req.body;
       console.log(adding);
-      const result = await addedToysCollection.insertOne(adding);
+      const result = await toysCollection.insertOne(adding);
+      // const result = await addedToysCollection.insertOne(adding);
       res.send(result);
     });
 
@@ -76,14 +77,16 @@ async function run() {
           status: updatedToys.status,
         },
       };
-      const result = await addedToysCollection.updateOne(filter, updateDoc);
+      const result = await toysCollection.updateOne(filter, updateDoc);
+      // const result = await addedToysCollection.updateOne(filter, updateDoc);
       res.send(result);
     });
 
     app.delete("/addedToys/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
-      const result = await addedToysCollection.deleteOne(query);
+      const result = await toysCollection.deleteOne(query);
+      // const result = await addedToysCollection.deleteOne(query);
       res.send(result);
     });
 
@@ -94,7 +97,8 @@ async function run() {
         query = { email: req.query.email };
       }
 
-      const result = await addedToysCollection.find(query).toArray();
+      const result = await toysCollection.find(query).toArray();
+      // const result = await addedToysCollection.find(query).toArray();
       res.send(result);
     });
 
